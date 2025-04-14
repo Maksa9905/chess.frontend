@@ -312,10 +312,8 @@ export const getBishopAvailableCells = (
 
 const getAvailableCells = (figure: TFigure, gameState: TGameField) => {
   switch (figure.figure) {
-    case EFigure.PAWN: {
-      console.log(getPawnAvailableCells(figure, gameState))
+    case EFigure.PAWN:
       return getPawnAvailableCells(figure, gameState)
-    }
     case EFigure.KNIGHT:
       return getKnightAvailableCells(figure, gameState)
     case EFigure.ROOK:
