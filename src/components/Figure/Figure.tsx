@@ -10,7 +10,7 @@ const Figure = ({ figure, team, size }: FigureProps) => {
   return (
     <figure
       style={{
-        background: `url("/src/assets/${team}_${figure}.png")`,
+        background: `url("/assets/${team}_${figure}.png")`,
         width: size,
         height: size,
       }}
