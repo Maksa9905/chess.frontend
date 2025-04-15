@@ -1,4 +1,5 @@
 import { EFigure, ETeam } from '#/models/game'
+import { figuresImages } from './figuresImages'
 
 export type FigureProps = {
   figure: EFigure
@@ -10,7 +11,7 @@ const Figure = ({ figure, team, size }: FigureProps) => {
   return (
     <figure
       style={{
-        background: `url("/assets/${team}_${figure}.png")`,
+        background: `url(${figuresImages[team][figure]})`,
         width: size,
         height: size,
       }}

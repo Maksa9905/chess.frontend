@@ -1,32 +1,57 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './Field.module.css'
-import { useUnit } from 'effector-react'
-import { $game, $currentMove, movedFigure } from '#/models/game'
+import {
+  checkShahCondition,
+  getNewGameState,
+  TMovedFigureEvent,
+  checkMateCondition,
+  ETeam,
+  TGame,
+} from '#/models/game'
 import { Figure } from '#/components/Figure'
 import { Draggable } from '#/components/Draggable'
-import { Cell } from '../Cell'
+import { Cell } from '#/components/Cell'
+import { FieldProps } from './Field.types'
 
-const Field = () => {
+const Field = ({ game, onChange }: FieldProps) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null)
 
+  const { currentMove, field } = game
+
   const ref = useRef<HTMLDivElement>(null)
-  const game = useUnit($game)
-  const currentMove = useUnit($currentMove)
 
   useEffect(() => {
     if (ref.current) setContainer(ref.current)
   }, [])
 
+  const handleMoveFigure = useCallback(
+    (event: TMovedFigureEvent) => {
+      const newField = getNewGameState(field, event, currentMove)
+
+      const newCurrentMove =
+        currentMove === ETeam.WHITE ? ETeam.BLACK : ETeam.WHITE
+      const shah = checkShahCondition(newField)
+      const mate = checkMateCondition(newField, newCurrentMove)
+
+      onChange({
+        field: newField,
+        currentMove: newCurrentMove,
+        shah,
+        mate,
+      } as TGame)
+    },
+    [field, currentMove],
+  )
+
   const renderField = () => {
-    return [...Array(64)].map((_, index) => {
-      const xPos = index % 8
-      const yPos = Math.floor(index / 8)
+    return [...Array(8)].map((_, yIndex) =>
+      [...Array(8)].map((_, xIndex) => {
+        const figure = field.find(
+          (fig) => fig.position.xPos === xIndex && fig.position.yPos === yIndex,
+        )
 
-      const figure = game.find(
-        (fig) => fig.position.xPos === xPos && fig.position.yPos === yPos,
-      )
+        if (!figure || !container) return <Cell />
 
-      if (figure && container)
         return (
           <Cell>
             <Draggable
@@ -34,7 +59,7 @@ const Field = () => {
               key={figure.id}
               position={figure.position}
               onMoved={(position) =>
-                movedFigure({ ...position, id: figure.id })
+                handleMoveFigure({ ...position, id: figure.id })
               }
               size={100}
               isStatic={currentMove !== figure.team}
@@ -46,9 +71,11 @@ const Field = () => {
             </Draggable>
           </Cell>
         )
-      else return <Cell />
-    })
+      }),
+    )
   }
+
+  if (!game || !onChange) return <>Not provided value and onChange</>
 
   return (
     <div

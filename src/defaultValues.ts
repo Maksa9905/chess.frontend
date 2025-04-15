@@ -1,6 +1,6 @@
-import { EFigure, ETeam, TGameField } from './types'
+import { EFigure, ETeam } from '#/models/game'
 
-export const defaultValues: TGameField = [
+export const defaultField = [
   {
     id: '1',
     figure: EFigure.PAWN,
@@ -322,3 +322,10 @@ export const defaultValues: TGameField = [
     team: ETeam.WHITE,
   },
 ]
+
+export const defaultGame = {
+  field: defaultField,
+  currentMove: ETeam.WHITE,
+  shah: null,
+  mate: false,
+}

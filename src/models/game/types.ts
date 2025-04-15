@@ -42,3 +42,10 @@ export type TCheckMovingEventParams = {
   gameState: TGameField
   deletingFigure?: TFigure
 }
+
+export type TGame = {
+  field: TGameField
+  currentMove: ETeam
+  shah: ETeam | null
+  mate: boolean
+}

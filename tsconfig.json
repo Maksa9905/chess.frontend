@@ -1,16 +1,25 @@
 {
   "compilerOptions": {
-    "target": "es6", // or your desired ECMAScript target
+    "target": "ESNext",
+    "module": "ESNext",
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "module": "esnext", // or your desired module system
-    "strict": true, // enables strict type-checking
-    "esModuleInterop": true, // allows default imports from CommonJS modules
-    "skipLibCheck": true, // optional, can speed up compilation
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
       "#/*": ["src/*"]
-    }
+    },
+
+    // Важные настройки для генерации типов
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "emitDeclarationOnly": false,
+    "outDir": "dist",
+    "isolatedModules": true
   },
-  "include": ["src"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

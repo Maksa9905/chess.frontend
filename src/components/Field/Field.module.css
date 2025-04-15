@@ -4,6 +4,5 @@
   height: 800px;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
-  margin: 100px;
   position: relative;
 }

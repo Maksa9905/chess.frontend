@@ -1,5 +1,8 @@
 export { ETeam, EFigure } from './types'
-export type { TFigure, TGameField } from './types'
+export type { TFigure, TGameField, TMovedFigureEvent, TGame } from './types'
 
-export { $game, $currentMove } from './game.store'
-export { movedFigure } from './game.events'
+export {
+  checkShahCondition,
+  getNewGameState,
+  checkMateCondition,
+} from './utils'
